@@ -1,0 +1,550 @@
+{% extends "base_farmerPage.html" %}
+{% block title %} Product List {% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+    html {
+        box-sizing: border-box;
+    }
+
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
+
+    .listbackground {
+        margin-left: 10%;
+        margin-right: 10%;
+        padding: 10px;
+        font-size: 15px;
+        min-height: 60vh;
+    }
+
+    .input1 {
+        border: 1px solid darkgrey;
+        padding: 10px;
+        min-width: 200px;
+        width: 90%;
+    }
+
+    .label1 {
+        padding-left: 40px;
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .column {
+        float: left;
+        width: 24%;
+        margin-bottom: 15px;
+        padding: 4px 8px;
+    }
+
+    .row {
+        margin: 5px -5px
+    }
+
+    .row,
+    .row > .column {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .container {
+        background-color: inherit;
+        padding: 5px 8px
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    @media screen and (max-width: 1200px) {
+        .column {
+            width: 33%;
+        }
+    }
+
+    @media screen and (max-width: 900px) {
+        .column {
+            width: 50%;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .column {
+            width: 80%;
+        }
+    }
+
+    /*create a modify modal*/
+    #modify_modal {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal {
+        width: 50%;
+        background: rgba(253, 240, 240, 1);
+        padding: 10px 0px 20px 0px;
+        border-radius: 5px;
+        min-width: 350px;
+        min-height: 200px;
+        max-height: 80vh;
+        text-align: center;
+        overflow: auto;
+    }
+
+    .top_form {
+        background: inherit;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .top_form #close_modal1 {
+        background: inherit;
+        cursor: pointer;
+        padding: 0 20px;
+        font-size: 20px;
+    }
+
+    .m-form {
+        justify-content: center;
+        text-align: center;
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .modify_form h2 {
+        letter-spacing: 1px;
+        margin-top: 1px;
+        margin-bottom: 20px;
+    }
+
+    .m_btn {
+        border-style: none;
+        cursor: pointer;
+        padding: 8px 0px;
+        text-decoration: none;
+        border-radius: 8px;
+        width: 40%;
+        background-color: inherit;
+        color: black;
+        margin: 10px auto;
+        font-weight: bold;
+    }
+
+    .m_btn:hover {
+        background-color: darkslategray;
+        color: white;
+    }
+
+    .modify_form form input {
+        width: 75%;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    /*create an add modal*/
+    #add_modal {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 2;
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .top_form #close_modal2 {
+        cursor: pointer;
+        padding: 0 20px;
+        font-size: 20px;
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .add-form {
+        width: 100%;
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .add_form {
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .add_form h2 {
+        letter-spacing: 1px;
+        margin-top: 1px;
+        margin-bottom: 20px;
+        background-color: inherit;
+    }
+
+    .add_form form .input1 {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        box-sizing: border-box;
+        border-radius: 5px;
+        background-color: inherit;
+    }
+
+    #csv_file {
+        background-color: rgba(253, 240, 240, 1);
+        padding: 10px 5px 20px 5px;
+    }
+
+    #csv_file form input {
+        background-color: rgba(253, 240, 240, 1);
+        padding: 5px 8px;
+    }
+
+    .uploadfile {
+        background-color: inherit;
+        border-radius: 5px;
+        border: none;
+        padding: 5px 8px;
+        font-weight: bold;
+    }
+
+    .uploadfile:hover {
+        background-color: darkslategray;
+        color: white;
+    }
+
+    tr td {
+        background-color: rgba(253, 240, 240, 1);
+    }
+
+    .label2 {
+        width: 10%;
+        min-width: 40px;
+        text-align: right;
+    }
+
+    .input2 {
+        padding: 0 10px;
+    }
+
+    .hrStyle {
+        filter: alpha(opacity=100, finishOpacity=0, style=3);
+        width: 95%;
+        color: darkslategray;
+    }
+
+    p {
+        background-color: inherit;
+        font-size: 12px;
+    }
+
+    .modify_btn {
+        background-color: darkslategray;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+        border: none;
+        font-weight: bold;
+    }
+
+    .file {
+        background-color: inherit;
+        width: 50%;
+        overflow: auto;
+    }
+
+    .option {
+        background-color: inherit;
+        justify-content: center;
+        display: flex;
+    }
+
+    @media screen and (max-width: 1300px) {
+        .option {
+            display: block;
+        }
+
+        .file {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+{% block header_name %}
+<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Farmer List">
+{% endblock %}
+{% block content1 %}
+<button class="text_bnt" id="product" onclick="product()">Product</button>
+<button class="text_bnt" id="addproduct">Add Product</button>
+<button class="text_bnt" id="orders" onclick="order()">Orders</button>
+{% endblock %}
+{% block content2 %}
+<div class="listbackground" id="list">
+    <div class="row" id="row_card">
+        {% if content %}
+        {% for i in range(size) %}
+        <div class="column">
+            <div class="card" id="card{{ i }}">
+                <img src="/static/welcome.jpg" alt="welcome" style="width: 100%; height: 160px">
+                <div class="container">
+                    <h2>{{ content[i][0] }}</h2>
+                    <p>Price: {{ content[i][1] }}</p>
+                    <p>Stock: {{ content[i][2] }}</p>
+                    <p>Details: {{ content[i][3] }}</p>
+                </div>
+                <button class="modify_btn" onclick="getIdName({{ i }})">Modify</button>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div id="modify_modal">
+    <div class="modal">
+        <div class="top_form">
+            <div id="close_modal1">
+                <span class="material-symbols-outlined" style="background: inherit;">close</span>
+            </div>
+        </div>
+        <div class="modify_form" style="background-color: rgba(253, 240, 240, 1);">
+            <h2 style="background-color: inherit;">Modify</h2>
+            <form action="update" class="m-form">
+                <table style="background-color: inherit;">
+                    <tr>
+                        <td><label class="label1" for="item_price">Price: </label></td>
+                        <td><input class="input1" type="text" id="item_price" name="item-price"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="label1" for="item_stock">Stock: </label></td>
+                        <td><input class="input1" type="text" id="item_stock" name="item-stock"></td>
+                    </tr>
+                    <tr>
+                        <td><label class="label1" for="item_details">Name: </label></td>
+                        <td><input class="input1" type="text" id="item_details" name="item-detail"></td>
+                    </tr>
+                </table>
+                <button type="button" class="m_btn" id="modify-item" onclick="modifyitem()">Modify</button>
+                <button type="button" class="m_btn" id="delete-item" onclick="deleteitem()">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="add_modal">
+    <div class="modal">
+        <div class="top_form">
+            <div id="close_modal2">
+                <span class="material-symbols-outlined" style="background: rgba(253, 240, 240, 1);">close</span>
+            </div>
+        </div>
+        <div class="add_form">
+            <h2 style="background-color: rgba(253, 240, 240, 1);">Add Product</h2>
+            <p>Choose one of the following options</p>
+
+            <div class="option">
+                <div style="background:inherit;" class="file">
+                    <p style="font-size: 13px; font-weight: bold">Option 1: Update one item</p>
+                    <form action="upload" method="post" class="add-form" id="add-form">
+                        <table style="background-color: rgba(253, 240, 240, 1);">
+                            <tr>
+                                <td class="label2"><label class="label1" for="item_name">Name: </label></td>
+                                <td class="input2"><input class="input1" type="text" id="item_name" name="item-name">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label2"><label class="label1" for="item_price">Price: </label></td>
+                                <td class="input2"><input class="input1" type="text" id="item_price_add"
+                                                          name="item-price"></td>
+                            </tr>
+                            <tr>
+                                <td class="label2"><label class="label1" for="item_stock">Stock: </label></td>
+                                <td class="input2"><input class="input1" type="text" id="item_stock_add"
+                                                          name="item-stock"></td>
+                            </tr>
+                            <tr>
+                                <td class="label2"><label class="label1" for="item_details">Details: </label></td>
+                                <td class="input2"><input class="input1" type="text" id="item_details_add"
+                                                          name="item-detail"></td>
+                            </tr>
+                            <tr>
+                                <td class="label2"><label class="label1" for="item_category">Category: </label></td>
+                                <td class="input2"><select class="input1" name="category" id="item_category">
+                                    <option value="fruit">fruit</option>
+                                    <option value="meat">meat</option>
+                                    <option value="vegetable">vegetable</option>
+                                    <option value="seafood">seafood</option>
+                                </select></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <div class="clear"></div>
+                    <button type="button" class="m_btn" id="add-item" name="add-item" onclick="additem()">Add</button>
+                </div>
+
+                <div id="csv_file" class="file">
+                    <p style="font-size: 13px; font-weight: bold">Option 2: Upload items via csv</p><br>
+                    <p>Step 1 : Download the format file (.csv)</p>
+                    <P>Step 2 : Fill in the correct data without empty cells</P>
+                    <P>Step 3 : Upload the file here</P><br>
+                    <hr class="hrStyle">
+                    <form style="background-color: inherit" action="/farmer/fileupload" method="post"
+                          enctype="multipart/form-data">
+                        <input type="file" name="file"/>
+                        <input class="uploadfile" type="submit" value="Upload">
+                    </form>
+                    <hr class="hrStyle">
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function additem() {
+        $(document).ready(function () {
+            $('#add-item').click(function () {
+                var itemname = $('#item_name').val();
+                var itemprice = $('#item_price_add').val();
+                var itemstock = $('#item_stock_add').val();
+                var itemdetails = $('#item_details_add').val();
+                var itemcategory = $('#item_category').val();
+
+                $.ajax({
+                    url: "http://127.0.0.1:5000/farmer/upload",
+                    method: "POST",
+                    data: {
+                        item_name: itemname, item_price: itemprice,
+                        item_stock: itemstock, item_details: itemdetails,
+                        item_categories: itemcategory
+                    },
+                    success: function (data) {
+                        console.log("success!")
+                    },
+                    error: function () {
+                        console.log("error!")
+                    }
+                });
+            });
+        });
+    }
+
+    function reFresh() {
+        location.replace("http://127.0.0.1:5000/farmer/list");
+    }
+
+    function modifyitem() {
+        $.ajax({
+            url: "http://127.0.0.1:5000/farmer/update",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": returnId,
+                "price": $('input[name="update-price"]').val(),
+                "stock": $('input[name="update-stock"]').val(),
+                "detail": $('input[name="update-detail"]').val()
+            }),
+            success: function (data) {
+                if (data == "1") {
+                    console.log("success!")
+                }
+            },
+            error: function () {
+                console.log("error!")
+            }
+        });
+    }
+
+    let cardid;
+    var card;
+    let returnId;
+
+    var modifymodal = document.getElementById("modify_modal");
+    var closemodal1 = document.getElementById("close_modal1");
+
+    var additem = document.getElementById("addproduct");
+    var addmodal = document.getElementById("add_modal");
+    var closemodal2 = document.getElementById("close_modal2");
+
+    additem.onclick = function () {
+        addmodal.style.display = "flex";
+    }
+
+    function getIdName(id) {
+        cardid = "card" + id;
+        returnId = id;
+        card = document.getElementById(cardid);
+        modifymodal.style.display = "flex";
+    }
+
+    closemodal1.onclick = function () {
+        modifymodal.style.display = "none";
+    }
+
+    closemodal2.onclick = function () {
+        addmodal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target === modifymodal) {
+            modifymodal.style.display = "none";
+        }
+        if (event.target === addmodal) {
+            addmodal.style.display = "none";
+        }
+    }
+
+    function deleteitem() {
+        $.ajax({
+            url: "http://127.0.0.1:5000/farmer/delete",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                "id": returnId
+            }),
+            success: function (data) {
+                if (data == "1") {
+                    console.log("success!")
+                }
+                window.location.reload();
+            },
+            error: function () {
+                console.log("error!")
+                window.location.reload();
+            }
+        });
+    }
+
+    function order() {
+        window.location.href = "http://127.0.0.1:5000/farmer/order";
+    }
+
+    function product() {
+        window.location.href = "http://127.0.0.1:5000/farmer/list";
+    }
+</script>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

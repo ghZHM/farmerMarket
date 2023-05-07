@@ -1,0 +1,251 @@
+{% extends "base_purchasePage.html" %}
+{% block title %} Item {% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        .creditbackground {
+            background: #e9fcdd;
+            min-height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 50px 15px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 50px 35px 35px;
+            max-width: 500px;
+            width: 100%;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 30px 60px 0 rgb(90, 116, 148, 0.4);
+        }
+
+        .creditcard {
+            background: inherit;
+            display: block;
+            margin: 0 8px 0 10px;
+        }
+
+        .bankcard {
+            width: 94%;
+            height: 35px;
+            border-radius: 5px;
+            background: inherit;
+            border: 1px solid #acc7d7;
+            font-size: 16px;
+            padding: 5px 15px;
+            color: #153454;
+        }
+
+        .label {
+            width: 100%;
+            background: inherit;
+            font-size: 14px;
+            padding: 5px 15px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1a3b5d;
+            display: block;
+        }
+
+        .date {
+            color: #1a3b5d;
+            flex-wrap: wrap;
+            height: 45px;
+            width: 120px;
+            border: 1px solid #acc7d7;
+            font-size: 16px;
+            padding: 10px;
+            white-space: nowrap;
+            background: inherit;
+            border-radius: 5px;
+        }
+
+        .expiration {
+            background: inherit;
+            display: block;
+            float: left;
+        }
+
+        .select_date {
+            display: flex;
+            background: inherit;
+        }
+
+        .month, .year {
+            background: inherit;
+            margin: 0 8px 0 0;
+        }
+
+        .cvv {
+            background: inherit;
+            display: block;
+            float: right;
+        }
+
+        #card_cvv {
+            width: 100%;
+            height: 35px;
+            border-radius: 5px;
+            background: inherit;
+            border: 1px solid #acc7d7;
+            font-size: 16px;
+            padding: 5px 0;
+            color: #153454;
+        }
+
+        .placebtn {
+            width: 100%;
+            height: 50px;
+            color-scheme: none;
+            background: darkslategray;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 3px 10px 20px 0 rgba(35, 100, 210, 0.3);
+            color: white;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .message {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 100px;
+        }
+
+        .message_card {
+            min-width: 500px;
+            min-height: 100px;
+            border-radius: 10px;
+            text-align: center;
+            background: #fafff4;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 20px 40px;
+        }
+
+        .msg_btn {
+            margin-top: 8px;
+            width: 50px;
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            background: inherit;
+            font-weight: bold;
+        }
+
+        .msg_btn:hover {
+            background: darkslategray;
+            color: white;
+        }
+
+    </style>
+{% endblock %}
+{% block header_name %}
+    <input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Payment">
+{% endblock %}
+{% block content2 %}
+    <div class="creditbackground">
+        <div class="card">
+            <div class="creditcard">
+                <label class="label" for="card_num">Card Number(16 digits)</label>
+                <input type="text" name="card_num" id="card_num" class="bankcard">
+            </div>
+            <div class="creditcard">
+                <label class="label" for="card_holder">Holder Name</label>
+                <input type="text" name="card_holder" id="card_holder" class="bankcard">
+            </div>
+            <div class="creditcard">
+                <div class="expiration">
+                    <label class="label">Expiration Date</label>
+                    <div class="select_date">
+                        <div class="month">
+                            <select class="date" id="month" name="month" style="background:inherit;">
+                                <option value="0">Month</option>
+                                {% if months %}
+                                    {% for i in range(length_month) %}
+                                        <option value="{{ i+1 }}">{{ months[i] }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="year">
+                            <select class="date" id="year" name="year" style="background:inherit;">
+                                <option id="date_year" value="0">Year</option>
+                                {% if years %}
+                                    {% for i in range(length_year) %}
+                                        <option value="{{ i+1 }}">{{ years[i] }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="cvv">
+                    <label for="card_cvv" class="label">CVV(3 digits: ***)</label>
+                    <input type="text" name="card_cvv" id="card_cvv">
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="creditcard">
+                <button class="placebtn" onclick="successToPay()">Submit</button>
+            </div>
+        </div>
+
+        <div class="message" id="success_msg">
+            <div class="message_card">
+                <p style="background:inherit;">{{ msg[0] }}</p>
+                <button class="msg_btn" id="success_btn" onclick="account()">OK</button>
+            </div>
+        </div>
+
+        <div class="message" id="fail_msg">
+            <div class="message_card">
+                <p style="background:inherit; color: #9f2323">{{ msg[1] }}</p>
+                <button class="msg_btn" id="fail_btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function successToPay() {
+            const cardnumber = document.getElementById("card_num").value;
+            const cardname = document.getElementById("card_holder").value;
+            const month = document.getElementById("month")
+            const year = document.getElementById("year")
+            const cvv = document.getElementById("card_cvv").value;
+            const monthselected = month.value;
+            const yearselected = year.value;
+
+            const success = document.getElementById("success_msg")
+            const fail = document.getElementById("fail_msg")
+            const failbtn = document.getElementById("fail_btn")
+            if (cardnumber.length === 16 && cardname.length !== 0
+                && monthselected > 0 && yearselected > 0 && cvv.length === 3) {
+                success.style.display = "flex";
+            } else {
+                fail.style.display = "flex";
+                failbtn.onclick = function () {
+                    fail.style.display = "none";
+                }
+            }
+        }
+    </script>
+{% endblock %}
+{% block content3 %}
+
+{% endblock %}

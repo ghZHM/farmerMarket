@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <style>
+        *{
+             background-color: #dcdcdc;
+        }
+
+        body {
+            min-height: 100%;
+        }
+
+        section {
+            background-color: rgba(90%, 90%, 90%, 0.2);
+            padding: 25px;
+        }
+
+        .begin {
+            padding: 15px 18px;
+            text-align: left;
+            color: black;
+            font-size: 20px;
+        }
+
+        .button {
+            color: black;
+            padding: 8px 15px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 16px;
+            font-size: 15px;
+            min-width: 50px;
+        }
+
+        .button:hover{
+            background-color: darkslategray;
+            color: white;
+        }
+
+        .left{
+            float: left;
+            margin-left: 15%;
+        }
+
+        .right{
+            float: right;
+            margin-right: 15%;
+        }
+
+        .clear{
+            clear: both;
+        }
+
+        ul li{
+            display: inline-block;
+            margin-left: 10px;
+            text-align: center;
+            background-color: white;
+            border-radius: 16px;
+        }
+
+        .begin a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="left">
+        <h1 class="begin">
+            <a href="welcome" class="active"><strong>Farmer Market</strong></a>
+        </h1>
+    </div>
+    <div class="right">
+        <nav>
+            <ul>
+                <li>
+                    <a href="login" class="button">Login</a>
+                </li>
+                <li>
+                    <a href="register" class="button">Register</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="clear"></div>
+</header>
+</body>
+</html>

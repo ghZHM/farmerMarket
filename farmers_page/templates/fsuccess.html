@@ -1,0 +1,80 @@
+{% extends "base_farmerPage.html" %}
+{% block title %} Product List {% endblock %}
+{% block head %}
+    {{ super() }}
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        .listbackground {
+            margin-left: 15%;
+            margin-right: 15%;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        .column {
+            float: left;
+            width: 25%;
+            margin-bottom: 15px;
+            padding: 4px 8px;
+        }
+
+        .row {
+            margin: 5px -5px
+        }
+
+        .row,
+        .row > .column {
+            padding: 10px;
+        }
+
+        .card {
+            padding: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .container {
+            background-color: inherit;
+            padding: 10px 14px
+        }
+
+        .container::after, .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        @media screen and (max-width: 900px) {
+            .column {
+                width: 50%;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+    </style>
+{% endblock %}
+{% block content1 %}
+
+{% endblock %}
+{% block content2 %}
+<div class="listbackground">
+After file upload
+<br>
+{{msg}}
+<br>
+</div>
+{% endblock %}
+{% block content3 %}
+
+{% endblock %}

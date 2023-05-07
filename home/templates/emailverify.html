@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email verify</title>
+    <script>
+function register()
+{
+	window.location.href="http://127.0.0.1:5000/home/register";
+}
+</script>
+</head>
+<body>
+ <h1>EmailVerify </h1>
+ <h2 style="color:red">IMPORTANT: YOU CAN ONLY CLICK SUBMITT ONCE!</h2>
+     <form  method="post" >
+         <label>verify</label><br>
+         <input type="text" name="verify" ><br>
+         <input  type="submit" name="verify">
+         <input class="input2" type="button" value="Back to register" name="button1" onclick="register()">{{msg}}
+
+     </form>
+</body>
+</html>

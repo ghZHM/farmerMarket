@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modify and delete goods</title>
+    <style>
+        header {
+            padding: 15px;
+            text-align: left;
+            font-size: 20px;
+            color: white;
+            background-color: darkgreen;
+        }
+
+        nav {
+            border: 10px;
+            color: seagreen;
+            padding: 5px;
+        }
+
+        a {
+            padding: 5px;
+            text-decoration: none;
+            color: seagreen;
+            font-size: 13px;
+        }
+
+        section {
+            display: -webkit-flex;
+            display: flex;
+            min-height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        #footer {
+            background-color: darkgreen;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            position: relative;
+            bottom: 0;
+            height: 300px;
+        }
+
+        li {
+            padding: 10px;
+        }
+
+        #div_main_L {
+            border: 5px;
+            background-color: rgba(100%,100%,100%,0.5);
+            height: 1000px;
+            width: 26%;
+            padding: 10px;
+        }
+
+        #div_main_M {
+            border: 5px;
+            background-color: rgba(100%,100%,100%,0.5);
+            height: 1000px;
+            width: 26%;
+            padding: 10px;
+        }
+
+        #div_main_R {
+            border: 5px;
+            background-color: rgba(100%,100%,100%,0.5);
+            height: 1000px;
+            width: 28%;
+            padding: 10px;
+        }
+
+
+
+        #div_left {
+            border: 5px;
+            background-color: rgba(220,201,165,0.8);
+            height: 1000px;
+            width: 20%;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Farmer Market</h1>
+    <p>{{msg}}</p>
+</header>
+
+<section>
+    <div id="div_left">
+        <nav>
+            <ul style="list-style-type: none">
+                <li><a href="list" style="color: black">
+                    <b>stock and orders</b>
+                </a></li>
+            </ul>
+        </nav>
+    </div>
+
+<div id="div_main_L">
+
+    <p>upload new items here</p>
+
+    <form action="upload" method="POST">
+      name:<input name="name" type="text"><br>
+      price<input name="price" type="text"><br>
+           stock: <input name="stock" type="text"><br>
+            details：<input name="details" type="text"><br>
+      <input type="submit">
+    </form>
+
+</div>
+
+
+
+<div id="div_main_M">
+    {% if allrow %}
+    <p>Modify price, stock and detail here</p>
+
+    <form method="post" action="update">
+
+    <select name="pickedItem">
+
+        {% for item in allrow %}
+    <option value={{item[0]}}>{{item[0]}}</option>
+        {% endfor %}
+    </select>
+
+    <select name="col2modify">
+        <option value={{"item_price"}}>price</option>
+        <option value={{"item_stock"}}>stock</option>
+        <option value={{"item_details"}}>detail</option>
+    </select>
+
+    <br>
+    please input new value here:<input type="text" name="newValue">
+    <input type="submit" value="modify">
+
+    </form>
+    {% endif %}
+</div>
+
+
+<div id="div_main_R">
+{% if items %}
+<p>You can downlist products that are already on the shelves here</p>
+
+<form method="post" action="delete">
+
+  <select name="row">
+    {% for item in items %}
+    <option value={{item[0]}}>{{item[0]}}</option>
+    {% endfor %}
+  </select>
+
+    <input type="submit" value="delete">
+</form>
+{% endif %}
+
+</div>
+
+</section>
+
+<footer id="footer">
+    <p>Footer</p>
+</footer>
+</body>
+</html>

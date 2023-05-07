@@ -1,0 +1,179 @@
+{% extends "base_purchasePage.html" %}
+{% block title %} Orders {% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+    .column {
+        float: left;
+        padding: 8px 15px;
+        min-height: 65vh;
+        overflow: auto;
+    }
+
+    .column.side {
+        background-color: #c6cec0;
+        width: 20%;
+        border: 2px solid #c6cec0;
+    }
+
+    .column.main {
+        background-color: gainsboro;
+        width: 75%;
+    }
+
+    h2 {
+        font-size: 18px;
+        background-color: inherit;
+    }
+
+    .side label {
+        padding: 8px 10px;
+        background-color: inherit;
+    }
+
+    .status {
+        float: left;
+        display: block;
+    }
+
+    .num {
+        float: right;
+    }
+
+    table.center {
+        margin-left: auto;
+        margin-right: auto;
+        min-width: 100%;
+    }
+
+    table.center, th, td {
+        padding: 5px 15px 5px 15px;
+        border: 1px solid #5e5e5e;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    tr td button {
+        display: block;
+        width: 110px;
+        padding: 3px 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 4px auto 2px auto;
+    }
+
+    button:hover {
+        background-color: darkslategray;
+        color: white;
+    }
+
+    tr th {
+        background-color: #b7b7b7;
+    }
+
+    .material-symbols-outlined {
+        cursor: pointer;
+    }
+
+    /*showing details in order*/
+    #order_info {
+        overflow: auto;
+        padding: 10px 13px;
+        margin-top: 15px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        display: none;
+    }
+
+    .container {
+        display: flex;
+        border: 1px solid #d4d7c4;
+        /*height: 130px;*/
+        background-color: #e6e8dc;
+    }
+
+    .row {
+        margin: 5px -5px;
+    }
+
+    .col {
+        float: left;
+        width: 49%;
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .pTitle {
+        margin: 5px 10px;
+        background-color: inherit;
+    }
+
+    .pTitle label {
+        background-color: inherit;
+    }
+
+    .pTitle p {
+        background-color: inherit;
+    }
+
+    section {
+        justify-content: center;
+        display: flex;
+    }
+</style>
+{% endblock %}
+{% block header_name %}
+<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Previous orders" onclick="home()">
+{% endblock %}
+{% block content1 %}
+<button class="text_bnt" id="product" onclick="product()">Product</button>
+<button class="text_bnt" id="orders" onclick="order()">Orders</button>
+{% endblock %}
+{% block content2 %}
+<section>
+    <div class="column side">
+        <h2>Your Orders</h2>
+    </div>
+
+    <div class="column main">
+        <table class="center">
+            <tr>
+                <th>No.</th>
+                <th>Order Date</th>
+                <th>Order by</th>
+                <th>Item</th>
+                <th>Shippment</th>
+                <th>Price</th>
+            </tr>
+            {% if purchase %}
+            {% for i in range(size) %}
+            <tr>
+                <td>{{i}}</td>
+                <td>{{purchase[i][2]}}</td>
+                <td>{{purchase[i][0]}}</td>
+                <td>{{purchase[i][3]}}</td>
+                <td>Standard</td>
+                <td>{{purchase[i][1]}}</td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+
+    </div>
+</section>
+
+<script>
+    function showOrder() {
+        var x = document.getElementById("order_info");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+</script>
+{% endblock %}

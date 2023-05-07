@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    {% block head %}
+        <title>{% block title %}{% endblock %}</title>
+        <script>
+            function home() {
+                window.location.href = "http://127.0.0.1:5000/home";
+            }
+        </script>
+        <style>
+            * {
+                background-color: #dcdcdc;
+            }
+
+            .begin {
+                padding: 30px;
+                text-align: left;
+                font-size: 20px;
+                background-color: #527e4c;
+            }
+
+            .left {
+                float: left;
+            }
+
+            .right {
+                float: right;
+            }
+
+            .clear {
+                clear: both;
+            }
+
+            .fbutton {
+                border-style: none;
+                cursor: pointer;
+                padding: 8px 10px;
+                text-decoration: none;
+                background-color: #6b9b4c;
+                color: white;
+                font-size: 23px;
+                font-weight: bold;
+            }
+
+            .subheader {
+                background-color: #3d5e35;
+            }
+
+            .bntline {
+                background-color: #3d5e35;
+            }
+
+            .text_bnt {
+                border: none;
+                padding: 10px 18px;
+                font-size: 16px;
+                cursor: pointer;
+                display: inline-block;
+                color: white;
+                background-color: inherit;
+            }
+
+            .text_bnt:hover {
+                background-color: #274646;
+            }
+
+            .sub_body {
+                min-height: 68vh;
+                min-width: 100vh;
+                overflow: auto;
+            }
+
+            .footer {
+                background-color: #527e4c;
+                text-align: center;
+                color: white;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+                min-height: 70px;
+                overflow: auto;
+            }
+
+            body {
+                min-height: 95vh;
+            }
+        </style>
+    {% endblock %}
+</head>
+<body>
+<header class="begin">
+    <div class="left">
+        <label for="farmermarket">
+            {% block header_name %} {% endblock %}
+        </label>
+    </div>
+    <div class="right">
+        <label for="userlabel">
+            <input type="button" class="fbutton" id="userlabel" value="{{ user }}">
+        </label>
+    </div>
+    <div class="clear"></div>
+</header>
+<header class="subheader">
+    <div class="bntline">
+        {% block content1 %} {% endblock %}
+    </div>
+</header>
+<div class="sub_body">
+    {% block content2 %} {% endblock %}
+</div>
+<footer class="footer">
+    {% block content3 %} {% endblock %}
+</footer>
+</body>
+</html>
