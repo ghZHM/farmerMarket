@@ -11,6 +11,7 @@ The following guideline would help you install the application's requirements an
 
 https://dev.mysql.com/downloads/installer/
 
+
 **1. Enter the correct file path in command line, which should be like**
 ```
 project
@@ -20,6 +21,8 @@ project
   ...
   requirements.txt
  ```
+ 
+ 
  **2. Activate the virtual environment**
 
  Use a virtual environment to manage the dependencies for your project, both in development and in production.
@@ -35,20 +38,21 @@ project
  
  **Note: We recommend using the latest version of Python. Flask supports Python 3.7 and newer.**
  
+ 
   **3. Install the dependency in virtual environment**
   
    ```
   pip install -r requirements.txt
    ```
    
+   
    **4. Initialize the database**
    
-   ```
-   type in the queries in ___.txt in command line to create a new database
-   ```
+   type in the queries in [create_table.txt](https://github.com/ghZHM/farmerMarket/blob/main/create_table.txt) in command line after activate MySQL to create a new schema.
+   
    
    **5. Setup database in models.py**
    
-   set the correct user_name, password and schema name in models.py
+   set the correct ***user_name, password and schema name*** in [models.py](https://github.com/ghZHM/farmerMarket/blob/main/models.py#L6)
  
  
