@@ -55,7 +55,7 @@ def forgetpwd():
         result=select(sql)
         n=list(result)
         if(len(n)!=0):#if found in database
-            return n
+            return "your password is:"+str(n[0][0])
         if(len(n)==0):#if not found
             return render_template('forgetpwd.html',msg='not found!')
     else:#some field is null,so tell the user to fill it
@@ -90,12 +90,13 @@ def register():
         dic["user_password"]=request.form.get("password")
         dic["user_question"]=request.form.get("userquestion")
         dic["user_answer"]=request.form.get("useranswer")
+        dic["user_address"] = request.form.get("Address")
         if ((dic["account_type"]=="farmer")or (dic["account_type"]=="admin")):
             dic["verified"]="0"#this is for verifying the admin or farmer
         else:
             dic["verified"] ="1"#we dont need verify the buyer
         #also radion type need additional check
-        if((len(dic["username"].strip())!=0)and(len(dic["first_name"].strip())!=0)and(len(dic["last_name"].strip())!=0)and(len(dic["user_email"])!=0)and(len(dic["user_phone"].strip())!=0)and dic["user_question"]and(len(dic["account_type"].strip())!=0)and(len(dic["user_password"].strip())!=0)and dic["user_question"] and(len(dic["user_question"].strip())!= 0) and (len(dic["user_answer"].strip())!= 0)):
+        if((len(dic["user_address"].strip())!=0)and(len(dic["username"].strip())!=0)and(len(dic["first_name"].strip())!=0)and(len(dic["last_name"].strip())!=0)and(len(dic["user_email"])!=0)and(len(dic["user_phone"].strip())!=0)and dic["user_question"]and(len(dic["account_type"].strip())!=0)and(len(dic["user_password"].strip())!=0)and dic["user_question"] and(len(dic["user_question"].strip())!= 0) and (len(dic["user_answer"].strip())!= 0)):
             insert("user", dic)#if not null execute insert
             session["email"]=request.form.get("email")
             return redirect("/home/verify")
@@ -117,6 +118,8 @@ def verify():
         return render_template('emailverify.html')
     if request.method =='POST' :
         code=request.form.get("verify")
+        if len(code.strip())==0:
+            code="-12345"
         ver_code=session.get("vercode")
         end_time=datetime.datetime.now()
         start_time=session.get("start_time")

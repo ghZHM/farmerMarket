@@ -27,8 +27,10 @@
     }
 
     .label1 {
-        padding-left: 40px;
+        padding-right: 5px;
+        padding-bottom: 10px;
         background-color: rgba(253, 240, 240, 1);
+        font-size: 15px;
     }
 
     .column {
@@ -52,6 +54,7 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         cursor: pointer;
         z-index: 1;
+        height: 380px;
     }
 
     .container {
@@ -98,6 +101,18 @@
     }
 
     .modal {
+        width: 25%;
+        background: rgba(253, 240, 240, 1);
+        padding: 10px 0px 20px 0px;
+        border-radius: 5px;
+        min-width: 350px;
+        min-height: 200px;
+        max-height: 80vh;
+        text-align: center;
+        overflow: auto;
+    }
+
+    .add_modal {
         width: 50%;
         background: rgba(253, 240, 240, 1);
         padding: 10px 0px 20px 0px;
@@ -183,7 +198,7 @@
     }
 
     .add-form {
-        width: 100%;
+        width: 50vh;
         background-color: rgba(253, 240, 240, 1);
     }
 
@@ -285,6 +300,51 @@
             width: 100%;
         }
     }
+
+
+    .label_search {
+        width: 45%;
+        padding: 8px 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .search_button {
+        width: 60px;
+        min-height: 30px;
+        margin-left: 15px;
+        border-radius: 8px;
+        border: 1px solid black;
+        cursor: pointer;
+    }
+
+    .search_button:hover {
+        background-color: darkslategray;
+        border: 1px solid darkslategray;
+        color: white;
+    }
+
+    #search {
+        display: flex;
+        margin-top: 9px;
+        margin-left: 10%;
+        text-align: center;
+    }
+
+    .category {
+        color: black;
+        flex-wrap: wrap;
+        min-height: 35px;
+        width: 130px;
+        border: 1px solid black;
+        font-size: 13px;
+        padding: 5px 10px;
+        white-space: nowrap;
+        background: inherit;
+        border-radius: 5px;
+        overflow: auto;
+    }
+
 </style>
 {% endblock %}
 {% block header_name %}
@@ -296,18 +356,42 @@
 <button class="text_bnt" id="orders" onclick="order()">Orders</button>
 {% endblock %}
 {% block content2 %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<div id="search">
+    <form action="search" class="search_form" method="post">
+        <label class="label_search" for="item_category">Search by Categories: </label>
+        <select class="category" name="category" id="category">
+            <option value="all">ALL</option>
+            <option value="fruit">fruit</option>
+            <option value="meat">meat</option>
+            <option value="vegetable">vegetable</option>
+            <option value="seafood">seafood</option>
+            <option value="dairy">dairy</option>
+            <option value="grain">grain</option>
+        </select>
+        <input type="submit" class="search_button" value="Search">
+    </form>
+</div>
 <div class="listbackground" id="list">
     <div class="row" id="row_card">
         {% if content %}
         {% for i in range(size) %}
         <div class="column">
             <div class="card" id="card{{ i }}">
-                <img src="/static/welcome.jpg" alt="welcome" style="width: 100%; height: 160px">
+                <img src="{{img [i]}}" alt="welcome" style="width: 100%; height: 160px">
                 <div class="container">
-                    <h2>{{ content[i][0] }}</h2>
-                    <p>Price: {{ content[i][1] }}</p>
-                    <p>Stock: {{ content[i][2] }}</p>
-                    <p>Details: {{ content[i][3] }}</p>
+                    <h2 id="product_name{{ i }}">{{ content[i][0] }}</h2>
+                    <p id="product_price{{ i }}">Price: {{ content[i][1] }}</p>
+                    <p id="product_stock{{ i }}">Stock: {{ content[i][4] }}</p>
+                    <p id="product_details{{ i }}">Details: {{ content[i][2] }}</p>
                 </div>
                 <button class="modify_btn" onclick="getIdName({{ i }})">Modify</button>
             </div>
@@ -325,20 +409,20 @@
             </div>
         </div>
         <div class="modify_form" style="background-color: rgba(253, 240, 240, 1);">
-            <h2 style="background-color: inherit;">Modify</h2>
+            <h2 style="background-color: inherit;" id="product_name"></h2>
             <form action="update" class="m-form">
-                <table style="background-color: inherit;">
+                <table style="background-color: inherit; margin: auto">
                     <tr>
                         <td><label class="label1" for="item_price">Price: </label></td>
-                        <td><input class="input1" type="text" id="item_price" name="item-price"></td>
+                        <td><input class="input1" type="text" id="product_price" name="item-price"></td>
                     </tr>
                     <tr>
                         <td><label class="label1" for="item_stock">Stock: </label></td>
-                        <td><input class="input1" type="text" id="item_stock" name="item-stock"></td>
+                        <td><input class="input1" type="text" id="product_stock" name="item-stock"></td>
                     </tr>
                     <tr>
-                        <td><label class="label1" for="item_details">Name: </label></td>
-                        <td><input class="input1" type="text" id="item_details" name="item-detail"></td>
+                        <td><label class="label1" for="item_details">Details: </label></td>
+                        <td><input class="input1" type="text" id="product_details" name="item-details"></td>
                     </tr>
                 </table>
                 <button type="button" class="m_btn" id="modify-item" onclick="modifyitem()">Modify</button>
@@ -349,7 +433,7 @@
 </div>
 
 <div id="add_modal">
-    <div class="modal">
+    <div class="add_modal">
         <div class="top_form">
             <div id="close_modal2">
                 <span class="material-symbols-outlined" style="background: rgba(253, 240, 240, 1);">close</span>
@@ -358,7 +442,6 @@
         <div class="add_form">
             <h2 style="background-color: rgba(253, 240, 240, 1);">Add Product</h2>
             <p>Choose one of the following options</p>
-
             <div class="option">
                 <div style="background:inherit;" class="file">
                     <p style="font-size: 13px; font-weight: bold">Option 1: Update one item</p>
@@ -366,7 +449,8 @@
                         <table style="background-color: rgba(253, 240, 240, 1);">
                             <tr>
                                 <td class="label2"><label class="label1" for="item_name">Name: </label></td>
-                                <td class="input2"><input class="input1" type="text" id="item_name" name="item-name">
+                                <td class="input2"><input class="input1" type="text" id="item_name"
+                                                          name="item-name">
                                 </td>
                             </tr>
                             <tr>
@@ -391,21 +475,27 @@
                                     <option value="meat">meat</option>
                                     <option value="vegetable">vegetable</option>
                                     <option value="seafood">seafood</option>
+                                    <option value="dairy">dairy</option>
+                                    <option value="grain">grain</option>
                                 </select></td>
                             </tr>
                         </table>
+                        <button type="button" class="m_btn" id="add-item" name="add-item" onclick="addproduct()">Add
+                        </button>
                     </form>
                     <div class="clear"></div>
-                    <button type="button" class="m_btn" id="add-item" name="add-item" onclick="additem()">Add</button>
                 </div>
 
                 <div id="csv_file" class="file">
                     <p style="font-size: 13px; font-weight: bold">Option 2: Upload items via csv</p><br>
+                    <a style="background-color: inherit"
+                       href="https://drive.google.com/file/d/1VEVFgyGmrrJW2oFP0U3QsRDrqrhUt0tn/view">Download File
+                        Format</a>
                     <p>Step 1 : Download the format file (.csv)</p>
                     <P>Step 2 : Fill in the correct data without empty cells</P>
                     <P>Step 3 : Upload the file here</P><br>
                     <hr class="hrStyle">
-                    <form style="background-color: inherit" action="/farmer/fileupload" method="post"
+                    <form style="background-color: inherit" action="fileupload" method="post"
                           enctype="multipart/form-data">
                         <input type="file" name="file"/>
                         <input class="uploadfile" type="submit" value="Upload">
@@ -420,32 +510,35 @@
 </div>
 
 <script>
-    function additem() {
-        $(document).ready(function () {
-            $('#add-item').click(function () {
-                var itemname = $('#item_name').val();
-                var itemprice = $('#item_price_add').val();
-                var itemstock = $('#item_stock_add').val();
-                var itemdetails = $('#item_details_add').val();
-                var itemcategory = $('#item_category').val();
+    function addproduct() {
+        var itemname = document.getElementById("item_name").value;
+        var itemprice = document.getElementById("item_price_add").value;
+        var itemstock = document.getElementById("item_stock_add").value;
+        var itemdetails = document.getElementById("item_details_add").value;
+        var itemcategory = document.getElementById("item_category").value;
 
-                $.ajax({
-                    url: "http://127.0.0.1:5000/farmer/upload",
-                    method: "POST",
-                    data: {
-                        item_name: itemname, item_price: itemprice,
-                        item_stock: itemstock, item_details: itemdetails,
-                        item_categories: itemcategory
-                    },
-                    success: function (data) {
-                        console.log("success!")
-                    },
-                    error: function () {
-                        console.log("error!")
-                    }
-                });
-            });
+        $.ajax({
+            url: "http://127.0.0.1:5000/farmer/upload",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                "item_name": itemname,
+                "item_price": itemprice,
+                "item_stock": itemstock,
+                "item_details": itemdetails,
+                "item_category": itemcategory,
+            }),
+            success: function (data) {
+                console.log("success!")
+                window.location.reload()
+            },
+            error: function () {
+                console.log("error!")
+                window.location.reload()
+            }
         });
+
     }
 
     function reFresh() {
@@ -453,6 +546,10 @@
     }
 
     function modifyitem() {
+        var itemprice = document.getElementById("product_price").value;
+        var itemstock = document.getElementById("product_stock").value;
+        var itemdetails = document.getElementById("product_details").value;
+
         $.ajax({
             url: "http://127.0.0.1:5000/farmer/update",
             type: "POST",
@@ -460,17 +557,19 @@
             dataType: "json",
             data: JSON.stringify({
                 "id": returnId,
-                "price": $('input[name="update-price"]').val(),
-                "stock": $('input[name="update-stock"]').val(),
-                "detail": $('input[name="update-detail"]').val()
+                "price": itemprice,
+                "stock": itemstock,
+                "detail": itemdetails,
             }),
             success: function (data) {
                 if (data == "1") {
                     console.log("success!")
+                    window.location.reload();
                 }
             },
             error: function () {
                 console.log("error!")
+                window.location.reload();
             }
         });
     }
@@ -495,6 +594,24 @@
         returnId = id;
         card = document.getElementById(cardid);
         modifymodal.style.display = "flex";
+        pName = "product_name" + id;
+        pPrice = "product_price" + id;
+        pStock = "product_stock" + id;
+        pDetails = "product_details" + id;
+
+        productName = document.getElementById(pName);
+        productPrice = document.getElementById(pPrice);
+        productStock = document.getElementById(pStock);
+        productDetails = document.getElementById(pDetails);
+
+        price = productPrice.innerText.split(" ")
+        stock = productStock.innerText.split(" ")
+        details = productDetails.innerText.slice(9)
+
+        document.getElementById("product_name").innerHTML = productName.innerText;
+        document.getElementById("product_price").value = price[1]
+        document.getElementById("product_stock").value = stock[1]
+        document.getElementById("product_details").value = details
     }
 
     closemodal1.onclick = function () {

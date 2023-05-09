@@ -173,7 +173,7 @@
     </style>
 {% endblock %}
 {% block header_name %}
-<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Checkout" onclick="home()">
+<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Checkout">
 {% endblock %}
 {% block content2 %}
     <div class="order_list">
@@ -219,12 +219,14 @@
                                 <label>{{ content[i][3] }}</label>
                             </div>
                             <div class="quantity">
-                                <label><input class="price_in" type="text" value="{{ content[i][4] }}"></label>
+                                <label><input class="price_in" type="text" value="{{ content[i][4] }}" id="amount{{i}}"></label>
                             </div>
                             <div class="total">
                                 <label>{{ total[i] }}</label>
                             </div>
                         </div>
+                        <button class="remove" id="id_refresh{{ i }}" onclick="refresh({{ content[i][0] }},{{i}})">REFRESH
+                        </button>
                         <button class="remove" id="id_remove{{ i }}" onclick="remove({{ content[i][0] }})">REMOVE
                         </button>
                         <br>
@@ -270,7 +272,7 @@
                     payerID: data.payerID
                 }).then(function (res) {
                     console.log(res.success)
-                    {#alert('success')#}
+                    window.location.reload()
                     // The payment is complete!
                     // You can now show a confirmation message to the customer
                 });

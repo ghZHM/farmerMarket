@@ -6,7 +6,7 @@
     .column {
         float: left;
         padding: 8px 15px;
-        min-height: 65vh;
+        min-height: 60vh;
         overflow: auto;
     }
 
@@ -84,28 +84,6 @@
         display: none;
     }
 
-    .container {
-        display: flex;
-        border: 1px solid #d4d7c4;
-        /*height: 130px;*/
-        background-color: #e6e8dc;
-    }
-
-    .row {
-        margin: 5px -5px;
-    }
-
-    .col {
-        float: left;
-        width: 49%;
-    }
-
-    .container::after, .row::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
     .pTitle {
         margin: 5px 10px;
         background-color: inherit;
@@ -126,7 +104,7 @@
 </style>
 {% endblock %}
 {% block header_name %}
-<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Previous orders" onclick="home()">
+<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Previous orders">
 {% endblock %}
 {% block content1 %}
 <button class="text_bnt" id="product" onclick="product()">Product</button>
@@ -143,7 +121,7 @@
             <tr>
                 <th>No.</th>
                 <th>Order Date</th>
-                <th>Order by</th>
+<!--                <th>Order by</th>-->
                 <th>Item</th>
                 <th>Shippment</th>
                 <th>Price</th>
@@ -153,7 +131,7 @@
             <tr>
                 <td>{{i}}</td>
                 <td>{{purchase[i][2]}}</td>
-                <td>{{purchase[i][0]}}</td>
+<!--                <td>{{purchase[i][0]}}</td>-->
                 <td>{{purchase[i][3]}}</td>
                 <td>Standard</td>
                 <td>{{purchase[i][1]}}</td>

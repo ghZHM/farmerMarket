@@ -5,15 +5,18 @@
     {% block head %}
         <title>{% block title %}{% endblock %}</title>
         <script>
+            // JavaScript function to redirect to the home page
             function home() {
                 window.location.href = "http://127.0.0.1:5000/home";
             }
         </script>
         <style>
+            /* Global styling */
             * {
                 background-color: #dcdcdc;
             }
 
+            /* Styling for the header section */
             .begin {
                 padding: 30px;
                 text-align: left;
@@ -21,21 +24,24 @@
                 background-color: #527e4c;
             }
 
+            /* Styling for aligning elements to the left */
             .left {
                 float: left;
             }
 
+            /* Styling for aligning elements to the right */
             .right {
                 float: right;
             }
 
+            /* Clear floating elements */
             .clear {
                 clear: both;
             }
 
+            /* Styling for a button */
             .fbutton {
                 border-style: none;
-                cursor: pointer;
                 padding: 8px 10px;
                 text-decoration: none;
                 background-color: #6b9b4c;
@@ -44,14 +50,17 @@
                 font-weight: bold;
             }
 
+            /* Styling for the subheader section */
             .subheader {
                 background-color: #3d5e35;
             }
 
+            /* Styling for the button line */
             .bntline {
                 background-color: #3d5e35;
             }
 
+            /* Styling for a text button */
             .text_bnt {
                 border: none;
                 padding: 10px 18px;
@@ -60,18 +69,22 @@
                 display: inline-block;
                 color: white;
                 background-color: inherit;
+                text-decoration: none;
             }
 
+            /* Styling for the text button on hover */
             .text_bnt:hover {
                 background-color: #274646;
             }
 
+            /* Styling for the sub body section */
             .sub_body {
                 min-height: 80vh;
                 {#width: 100vh;#}
                 overflow: auto;
             }
 
+             /* Styling for the footer section */
             .footer {
                 background-color: #527e4c;
                 padding: 15px;
@@ -92,16 +105,22 @@
         </label>
     </div>
     <div class="right">
-{#        <label for="userlabel">#}
-{#            <input type="button" class="fbutton" id="userlabel" value= "{{ user }}">#}
-{#        </label>#}
+       <label for="userlabel">
+            <input type="button" class="fbutton" id="userlabel" value= "{{ user }}">
+        </label>
     </div>
     <div class="clear"></div>
 </header>
 
 <header class="subheader">
     <div class="bntline">
-        {% block content1 %} {% endblock %}
+        <div class="left" style="background-color: inherit">
+            {% block content1 %} {% endblock %}
+        </div>
+        <div class="right" style="background-color: inherit">
+            <a class="text_bnt" id="logout" href="{{ url_for('adminPage_bp.signout') }}">Logout</a>
+        </div>
+        <div class="clear"></div>
     </div>
 </header>
 

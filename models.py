@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 import random
 
 password='12345'#for changing the password easier
-database = "farmermarket"
+database = "final_schema"
 def select(sql):
     conn = pymysql.connect(host='localhost', user='root', password=password, port=3306, db=database)
     cur = conn.cursor()
@@ -43,8 +43,8 @@ def insertCart(table, dic):
 def insertPurchase(dic):
     conn = pymysql.connect(host='localhost', user='root', password=password, port=3306, db=database)
     cur = conn.cursor()
-    sql = "INSERT INTO purchase(item_id, farmer_id, buyer_id, money_paid, paid_time, address) VALUES (%s,%s,%s,%s,%s,%s)"
-    rows = cur.execute(sql,(dic["item_id"],dic["farmer_id"],dic["buyer_id"],dic["money_paid"],dic["paytime"],dic["address"]))
+    sql = "INSERT INTO purchase(item_id, farmer_id, buyer_id, money_paid, paid_time) VALUES (%s,%s,%s,%s,%s)"
+    rows = cur.execute(sql,(dic["item_id"],dic["farmer_id"],dic["buyer_id"],dic["money_paid"],dic["paytime"]))
     conn.commit()
     cur.close()
     conn.close()
@@ -62,8 +62,9 @@ def insertitems (table,dic,userid):
     conn = pymysql.connect(host='localhost', user='root', password=password, port=3306, db=database)
     cur = conn.cursor()
     if table == "item":
-        sql = "INSERT INTO item(farmer_id,item_name,item_pic,item_price,item_stock,item_details,item_categories) VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        rows = cur.execute(sql, (userid,dic["name"], "pic_path", dic["price"], dic["stock"], dic["details"],dic["category"]))
+        sql = "INSERT INTO item(farmer_id,item_name,item_price,item_stock,item_details,item_categories, item_deleted) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        rows = cur.execute(sql,(userid, dic["item_name"], dic["item_price"], dic["item_stock"],dic["item_details"],dic["item_categories"],0))
+
         conn.commit()
         cur.close()
         conn.close()
@@ -76,10 +77,9 @@ def updateitemsfromfile(dic, itemid, farmerid):
     conn = pymysql.connect(host='localhost', user='root', password=password, port=3306, db=database)
     cur = conn.cursor()
     itemid = int(itemid[0][0])
-    pic ="pic_path"
-    sql = "UPDATE item SET farmer_id = %s,item_name= %s,item_pic = %s,item_price= %s,item_stock= %s, item_details= %s, item_categories= %s WHERE item_id= %s"
+    sql = "UPDATE item SET farmer_id = %s,item_name= %s,item_price= %s,item_stock= %s, item_details= %s, item_categories= %s WHERE item_id= %s"
 
-    rows = cur.execute(sql, (int(farmerid), str(dic["name"]),"picp", int(dic["price"]), int(dic["stock"]), dic["details"], dic["category"],itemid))
+    rows = cur.execute(sql, (int(farmerid), str(dic["item_name"]),int(dic["item_price"]), int(dic["item_stock"]), dic["item_details"], dic["item_categories"],itemid))
     conn.commit()
     cur.close()
     conn.close()
@@ -105,10 +105,10 @@ def deleteuser():
     conn.close()
 
 # author: Haoming Zeng Details: remove row in cartList
-def deleteCart(list_id):
+def deleteCart(list_id,user_id):
     conn = pymysql.connect(host='localhost', user='root', password=password, port=3306, db=database)
     cur = conn.cursor()
-    sql="DELETE FROM cartlist where item_id ="+str(list_id)
+    sql="DELETE FROM cartlist where item_id ="+str(list_id)+" and buyer_id ="+user_id
     rows = cur.execute(sql)
     conn.commit()
     cur.close()
@@ -152,3 +152,19 @@ def send_email_get_code(recipients):
     smtp_server.sendmail(sender, recipients, msg.as_string())
     smtp_server.quit()
     return ver_code
+
+#MingziCao:send e-mail to farmer
+def send_purchase_email(message,email):
+    subject = "Purchase Information"
+    body = message
+    sender = "mciaftest@gmail.com"
+    recipients = email
+    password = "ucadviqhkrqrxqcv"
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = sender
+    msg['To'] = recipients
+    smtp_server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+    smtp_server.login(sender, password)
+    smtp_server.sendmail(sender, recipients, msg.as_string())
+    smtp_server.quit()

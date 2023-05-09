@@ -1,274 +1,282 @@
 {% extends "base_purchasePage.html" %}
 {% block title %} Purchase {% endblock %}
 {% block head %}
-    {{ super() }}
-    <style>
-        html {
-            box-sizing: border-box;
-        }
+{{ super() }}
+<style>
+    html {
+        box-sizing: border-box;
+    }
 
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
+    *, *:before, *:after {
+        box-sizing: inherit;
+    }
 
-        .listbackground {
-            margin-left: 10%;
-            margin-right: 10%;
-            padding: 10px;
-            font-size: 15px;
-        }
+    .listbackground {
+        margin-left: 10%;
+        margin-right: 10%;
+        padding: 10px;
+        font-size: 15px;
+    }
 
+    .column {
+        float: left;
+        width: 24%;
+        padding: 4px 8px;
+        margin: auto;
+    }
+
+    .row {
+        margin: 5px -5px
+    }
+
+    .row,
+    .row > .column {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .container {
+        background-color: inherit;
+        padding: 5px 8px;
+        height: 230px;
+        overflow: auto;
+    }
+
+    .container::after, .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    @media screen and (max-width: 1500px) {
         .column {
-            float: left;
-            width: 24%;
-            padding: 4px 8px;
-            margin: auto;
+            width: 33%;
         }
+    }
 
-        .row {
-            margin: 5px -5px
+    @media screen and (max-width: 1100px) {
+        .column {
+            width: 50%;
         }
+    }
 
-        .row,
-        .row > .column {
-            padding: 10px;
+    @media screen and (max-width: 800px) {
+        .column {
+            width: 80%;
         }
+    }
 
-        .card {
-            padding: 5px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            z-index: 1;
-        }
+    .label_search {
+        width: 45%;
+        padding: 8px 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
 
-        .container {
-            background-color: inherit;
-            padding: 5px 8px;
-            height: 230px;
-            overflow: auto;
-        }
+    .search_button {
+        width: 60px;
+        min-height: 30px;
+        margin-left: 15px;
+        border-radius: 8px;
+        border: 1px solid black;
+        cursor: pointer;
+    }
 
-        .container::after, .row::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
+    .search_button:hover {
+        background-color: darkslategray;
+        border: 1px solid darkslategray;
+        color: white;
+    }
 
-        @media screen and (max-width: 1500px) {
-            .column {
-                width: 33%;
-            }
-        }
+    #search {
+        display: flex;
+        margin-top: 9px;
+        margin-left: 10%;
+        text-align: center;
+    }
 
-        @media screen and (max-width: 1100px) {
-            .column {
-                width: 50%;
-            }
-        }
+    .category {
+        color: black;
+        flex-wrap: wrap;
+        min-height: 35px;
+        width: 130px;
+        border: 1px solid black;
+        font-size: 13px;
+        padding: 5px 10px;
+        white-space: nowrap;
+        background: inherit;
+        border-radius: 5px;
+        overflow: auto;
+    }
 
-        @media screen and (max-width: 800px) {
-            .column {
-                width: 80%;
-            }
-        }
+    h2 {
+        background-color: inherit;
+        float: left;
+    }
 
-        .label_search {
-            width: 45%;
-            padding: 8px 10px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+    .cart_bnt {
+        background-color: darkslategray;
+        color: white;
+        padding: 5px 10px;
+        cursor: pointer;
+        border: none;
+        font-weight: bold;
+    }
 
-        .search_button {
-            width: 60px;
-            min-height: 30px;
-            margin-left: 15px;
-            border-radius: 8px;
-            border: 1px solid black;
-            cursor: pointer;
-        }
+    .N_item {
+        background-color: inherit;
+        padding: 5px;
+    }
 
-        .search_button:hover {
-            background-color: darkslategray;
-            border: 1px solid darkslategray;
-            color: white;
-        }
+    .num {
+        background-color: rgba(253, 240, 240, 1);
+        width: 60px;
+        border: 1px solid gray;
+        padding: 5px 10px;
+    }
 
-        #search {
-            display: flex;
-            margin-top: 9px;
-            margin-left: 10%;
-            text-align: center;
-        }
-
-        .category {
-            color: black;
-            flex-wrap: wrap;
-            min-height: 35px;
-            width: 130px;
-            border: 1px solid black;
-            font-size: 13px;
-            padding: 5px 10px;
-            white-space: nowrap;
-            background: inherit;
-            border-radius: 5px;
-            overflow: auto;
-        }
-
-        h2 {
-            background-color: inherit;
-            float: left;
-        }
-
-        .cart_bnt {
-            background-color: darkslategray;
-            color: white;
-            padding: 5px 10px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-        }
-
-        .N_item {
-            background-color: inherit;
-            padding: 5px;
-        }
-
-        .num {
-            background-color: rgba(253, 240, 240, 1);
-            width: 60px;
-            border: 1px solid gray;
-            padding: 5px 10px;
-        }
-
-        .container .material-symbols-outlined {
-            background-color: inherit;
-            color: black;
-            text-align: center;
-            padding: 10px;
-            float: right;
-        }
-    </style>
+    .container .material-symbols-outlined {
+        background-color: inherit;
+        color: black;
+        text-align: center;
+        padding: 10px;
+        float: right;
+    }
+</style>
 {% endblock %}
 {% block header_name %}
-    <input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Purchase" onclick="home()">
+<input type="button" id="farmermarket" class="fbutton" value="Farmer Market - Purchase">
 {% endblock %}
 {% block content2 %}
-    <div id="search">
-        <form action="search" class="search_form" method="post">
-            <label class="label_search" for="item_category">Search by Categories: </label>
-            <select class="category" name="category" id="item_category">
-                <option value="all">ALL</option>
-                <option value="fruit">fruit</option>
-                <option value="meat">meat</option>
-                <option value="vegetable">vegetable</option>
-                <option value="seafood">seafood</option>
-                <option value="dairy">dairy</option>
-                <option value="grain">grain</option>
-            </select>
-            <input type="submit" class="search_button" value="Search">
-        </form>
-    </div>
-    <div class="listbackground" id="list">
-        <div class="row" id="row_card">
-            {% if content %}
-                {% for i in range(size) %}
-                    <div class="column">
-                        <div class="card" id="card{{ i }}">
-                            <img src="{{ img[i] }}" alt="welcome" style="width: 100%; height: 160px">
-                            <div class="container">
-                                <div style="background-color: inherit">
-                                    <h2 id="{{ i }}">{{ content[i][0] }}</h2>
-                                    <span class="material-symbols-outlined" onclick="addfavorite({{ i }}, {{ content[i][3] }})"
-                                          id="addfavorite{{ i }}">favorite</span>
-                                    <div class="clear"></div>
-                                </div>
-                                <p>Price: {{ content[i][1] }}</p>
-                                <p>Details: {{ content[i][2] }}</p>
-                                <p>Stock: {{ content[i][4] }}</p>
-                            </div>
-                            <div class="N_item">
-                                <label for="num{{ i }}" style="background-color: inherit">Quality: </label>
-                                <input class="num" type="text" id="num{{ i }}" onclick="document.getElementById('num{{ i }}').value = '' " value="1">
-                                <button class="cart_bnt" onclick="addtocart({{ i }}, {{ content[i][3] }})">ADD TO CART</button>
-                            </div>
-                        </div>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<div id="search">
+    <form action="search" class="search_form" method="post">
+        <label class="label_search" for="item_category">Search by Categories: </label>
+        <select class="category" name="category" id="item_category">
+            <option value="all">ALL</option>
+            <option value="fruit">fruit</option>
+            <option value="meat">meat</option>
+            <option value="vegetable">vegetable</option>
+            <option value="seafood">seafood</option>
+            <option value="dairy">dairy</option>
+            <option value="grain">grain</option>
+        </select>
+        <input type="submit" class="search_button" value="Search">
+    </form>
+</div>
+<div class="listbackground" id="list">
+    <div class="row" id="row_card">
+        {% if content %}
+        {% for i in range(size) %}
+        <div class="column">
+            <div class="card" id="card{{ i }}">
+                <img src="{{ img[i] }}" alt="welcome" style="width: 100%; height: 160px">
+                <div class="container">
+                    <div style="background-color: inherit">
+                        <h2 id="{{ i }}">{{ content[i][0] }}</h2>
+                        <span class="material-symbols-outlined" onclick="addfavorite({{ i }}, {{ content[i][3] }})"
+                              id="addfavorite{{ i }}">favorite</span>
+                        <div class="clear"></div>
                     </div>
-                {% endfor %}
-            {% endif %}
+                    <p>Price: {{ content[i][1] }}</p>
+                    <p>Details: {{ content[i][2] }}</p>
+                    <p>Stock: {{ content[i][4] }}</p>
+                </div>
+                <div class="N_item">
+                    <label for="num{{ i }}" style="background-color: inherit">Quality: </label>
+                    <input class="num" type="text" id="num{{ i }}"
+                           onclick="document.getElementById('num{{ i }}').value = '' " value="1">
+                    <button class="cart_bnt" onclick="addtocart({{ i }}, {{ content[i][3] }})">ADD TO CART</button>
+                </div>
+            </div>
         </div>
+        {% endfor %}
+        {% endif %}
     </div>
+</div>
 
-    <script>
-        let cardid;
-        var card;
-        let returnId;
+<script>
+    let cardid;
+    var card;
+    let returnId;
 
-        var item_modal = document.getElementById("item_modal");
+    var item_modal = document.getElementById("item_modal");
 
-        function home() {
-            location.replace("http://127.0.0.1:5000/home/");
-        }
+    function home() {
+        location.replace("http://127.0.0.1:5000/home/");
+    }
 
-        function getIdName(id) {
-            cardid = "card" + id;
-            returnId = id;
-            card = document.getElementById(cardid);
-            item_modal.style.display = "flex";
-            return returnId;
-        }
+    function getIdName(id) {
+        cardid = "card" + id;
+        returnId = id;
+        card = document.getElementById(cardid);
+        item_modal.style.display = "flex";
+        return returnId;
+    }
 
-        function addtocart(id, itemid) {
-            var str = "num"+id;
-<!--            console.log(document.getElementById(str).value + "/t" + document.getElementById(id).innerText + "/t" +itemid);-->
-            $.ajax({
-                url: "http://127.0.0.1:5000/purchase/addCart",
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify({
-                    "good": document.getElementById(id).innerText,
-                    "amount": document.getElementById(str).value,
-                    "id": itemid
-                }),
-                success: function () {
-                    alert('success')
-                    window.location.reload()
-                },
-                error: function () {
-                    alert('success')
-                    window.location.reload()
-                }
-            });
+    function addtocart(id, itemid) {
+        var str = "num" + id;
+        <!--            console.log(document.getElementById(str).value + "/t" + document.getElementById(id).innerText + "/t" +itemid);-->
+        $.ajax({
+            url: "http://127.0.0.1:5000/purchase/addCart",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                "good": document.getElementById(id).innerText,
+                "amount": document.getElementById(str).value,
+                "id": itemid
+            }),
+            success: function () {
+                window.location.reload()
+            },
+            error: function () {
+                window.location.reload()
+            }
+        });
 
-        }
+    }
 
-        function addfavorite(id, itemid) {
-            var str = "num"+id;
-<!--            console.log(document.getElementById(str).value + "/t" + document.getElementById(id).innerText + "/t" +itemid);-->
-            $.ajax({
-                url: "http://127.0.0.1:5000/purchase/addwishlist",
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify({
-                    "good": document.getElementById(id).innerText,
-                    "amount": document.getElementById(str).value,
-                    "id": itemid
-                }),
-                success: function () {
-                    alert('success')
-                    window.location.reload()
-                },
-                error: function () {
-                    alert('success')
-                    window.location.reload()
-                }
-            });
+    function addfavorite(id, itemid) {
+        var str = "num" + id;
+        <!--            console.log(document.getElementById(str).value + "/t" + document.getElementById(id).innerText + "/t" +itemid);-->
+        $.ajax({
+            url: "http://127.0.0.1:5000/purchase/addwishlist",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+                "good": document.getElementById(id).innerText,
+                "amount": document.getElementById(str).value,
+                "id": itemid
+            }),
+            success: function () {
+                alert('success')
+                window.location.reload()
+            },
+            error: function () {
+                alert('success')
+                window.location.reload()
+            }
+        });
 
-        }
+    }
 
-    </script>
+</script>
 {% endblock %}
 {% block content3 %}
 

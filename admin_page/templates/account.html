@@ -3,7 +3,9 @@
 {% block head %}
     {{ super() }}
     <style>
+        /* CSS styles for the page */
         .wrapper {
+            /* Grid layout for the wrapper */
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 10px;
@@ -11,6 +13,7 @@
         }
 
         .t_farmer {
+            /* Grid layout for the "t_farmer" class */
             background-color: inherit;
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -19,6 +22,7 @@
         }
 
         .N_list {
+            /* Styling for the "N_list" section */
             min-height: 250px;
             grid-column: 1/3;
             grid-row: 1/4;
@@ -30,6 +34,7 @@
         }
 
         .N_purchase {
+            /* Styling for the "N_purchase" section */
             grid-column: 1/3;
             grid-row: 4/7;
             min-height: 250px;
@@ -41,6 +46,7 @@
         }
 
         .N_farmers {
+            /* Styling for the "N_farmers" section */
             grid-column: 3/6;
             grid-row: 1/7;
             padding: 5px;
@@ -53,12 +59,14 @@
         }
 
         table.farmerlist {
+            /* Styling for the "farmerlist" table */
             grid-column: 1;
             grid-row: 1/6;
             margin: 15px 10px;
         }
 
         table.farmerlist, th, td {
+            /* Styling for table cells */
             padding: 5px 25px 5px 25px;
             border: 1px solid black;
             border-collapse: collapse;
@@ -66,10 +74,12 @@
         }
 
         tr th, tr td {
+            /* Styling for table headers and cells */
             background-color: #e1e1de;
         }
 
         .verify {
+             /* Styling for the "verify" button */
             background-color: inherit;
             padding: 5px 10px;
             margin: 3px;
@@ -79,11 +89,13 @@
         }
 
         .verify:hover {
+            /* Styling for the "verify" button when hovered */
             background-color: darkslategray;
             color: white;
         }
 
         .verify_form {
+            /* Styling for the verification form */
             grid-column: 1;
             grid-row: 6/7;
             background-color: inherit;
@@ -105,10 +117,12 @@
 {% block content2 %}
     <div class="wrapper">
         <div class="N_list">
-            <label>Number of listings: </label>
+            <label>Number of products: {{itemSize}}</label><br>
+            <label>Number of buyers: {{buyerSize}}</label>
         </div>
         <div class="N_purchase">
-            <label>Number of purchases: </label>
+            <label>Number of purchases: {{orderSize}}</label><br>
+            <label>Number of farmers: {{farmerSize}}</label>
         </div>
         <div class="N_farmers">
             <div class="t_farmer">

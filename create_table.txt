@@ -1,0 +1,83 @@
+CREATE TABLE IF NOT EXISTS user(
+user_id  INT UNSIGNED AUTO_INCREMENT NOT NULL,
+user_name VARCHAR(100) NOT NULL,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+user_Email VARCHAR(100) NOT NULL,
+user_phone VARCHAR(12) NOT NULL,
+account_type VARCHAR(10) NOT NULL,
+user_password VARCHAR(20) NOT NULL,
+user_question VARCHAR(100) NOT NULL,
+user_answer VARCHAR(100) NOT NULL,
+verified TINYINT(1) NOT NULL,
+user_address VARCHAR(100) NOT NULL,
+PRIMARY KEY(user_id));
+
+CREATE TABLE IF NOT EXISTS item(
+item_id  INT UNSIGNED AUTO_INCREMENT NOT NULL,
+farmer_id INT UNSIGNED NOT NULL,
+item_name VARCHAR(100) NOT NULL,
+item_price  DOUBLE NOT NULL,
+item_stock INT UNSIGNED NOT NULL,
+item_details VARCHAR(200) NOT NULL,
+item_categories VARCHAR(50) NOT NULL,
+item_deleted TINYINT(1) NOT NULL,
+CONSTRAINT fk_user FOREIGN KEY(farmer_id) REFERENCES user(user_id),
+PRIMARY KEY(item_id));
+
+CREATE TABLE IF NOT EXISTS purchase(
+purchase_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+item_id INT UNSIGNED NOT NULL,
+farmer_id INT UNSIGNED NOT NULL,
+buyer_id INT UNSIGNED NOT NULL,
+money_paid DOUBLE NOT NULL,
+paid_time DATETIME NOT NULL,
+CONSTRAINT fk_farmer FOREIGN KEY(farmer_id) REFERENCES user(user_id),
+CONSTRAINT fk_item FOREIGN KEY(item_id) REFERENCES item(item_id),
+CONSTRAINT fk_buyer FOREIGN KEY(buyer_id) REFERENCES user(user_id),
+PRIMARY KEY(purchase_id));
+
+
+CREATE TABLE IF NOT EXISTS wishlist(
+wishlist_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+item_id INT UNSIGNED NOT NULL,
+buyer_id INT UNSIGNED NOT NULL,
+amount INT UNSIGNED NOT NULL,
+CONSTRAINT fk_wish FOREIGN KEY(buyer_id) REFERENCES user(user_id),
+CONSTRAINT fk_wishitem FOREIGN KEY(item_id) REFERENCES item(item_id),
+PRIMARY KEY(wishlist_id));
+
+CREATE TABLE IF NOT EXISTS cartlist(
+cartlist_id INT UNSIGNED AUTO_INCREMENT NOT NULL,
+item_id INT UNSIGNED NOT NULL,
+amount INT UNSIGNED NOT NULL,
+buyer_id INT UNSIGNED NOT NULL,
+CONSTRAINT fk_cart FOREIGN KEY(buyer_id) REFERENCES user(user_id),
+CONSTRAINT fk_cartitem FOREIGN KEY(item_id) REFERENCES item(item_id),
+PRIMARY KEY(cartlist_id));
+
+
+
+
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('admin1', 'john', 'wick', 'johnwick@gmail.com', '1234567890', 'admin', 'iamjohnwick', 'Whats your favorite food?', 'icecream', '1', 'S3 7TD');
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('farmer1', 'xu', 'chen', 'xuchen@gmail.com', '0987654321', 'farmer', 'iamxuchen', 'Whats the name of your first pet?', 'idk', '0', 'S3 7TE');
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('cohen', 'name', 'cao', 'cao@gmail.com', '7421905749', 'farmer', '1234567', 'Whats the name of your primary school?', 'cgb', '1', 'S3 7TA');
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('mark', 'jack', 'ma', 'jackma@gmail.com', '1357924680', 'farmer', '1234567', 'Whats your favorite food?', 'grape', '1', 'S3 11AB');
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('jack', 'hao', 'yu', 'haomi@gmail.com', '2468013579', 'buyer', '1234567', 'Whats the name of your first pet?', 'dogdog', '1', 'S2 7TA');
+INSERT INTO `user` (`user_name`, `first_name`, `last_name`, `user_Email`, `user_phone`, `account_type`, `user_password`, `user_question`, `user_answer`, `verified`, `user_address`) VALUES ('jia', 'jia', 'xu', 'jia@gmail.com', '9753186420', 'buyer', '1234567', 'Whats your favorite food?', 'spicyfood', '1', 'S1 3TD');
+
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'orange', '1.0', '10', 'this is orange from cohen', 'fruit', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'milk', '5.5', '5', 'this is milk from cohen', 'dairy', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'lamb', '11.5', '12', 'this is lamb chop from cohen', 'meat', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'sea bass', '15.0', '7', 'this is sea bass from cohen', 'seafood', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'pak choi', '3.5', '21', 'this is banana from cohen', 'vegetable', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('3', 'wheat', '1.2', '25', 'this is wheat from cohen', 'grain', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('4', 'orange', '0.7', '11', 'this is orange from mark', 'fruit', '0');
+INSERT INTO `item` (`farmer_id`, `item_name`, `item_price`, `item_stock`, `item_details`, `item_categories`, `item_deleted`) VALUES ('4', 'strawberry', '1.3', '15', 'this is strawberry from mark', 'fruit', '0');
+INSERT INTO `purchase` (`item_id`, `farmer_id`, `buyer_id`, `money_paid`, `paid_time`) VALUES ('1', '3', '5', '100', '2023-05-07 16:56:28');
+
+
+
+
+
+

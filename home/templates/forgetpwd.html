@@ -1,8 +1,8 @@
 {% extends "loginBase.html" %}
 {% block title %} forget {% endblock %}
 {% block head %}
-    {{ super() }}
-    <script>
+{{ super() }}
+<script>
         function login() {
             window.location.href = "http://127.0.0.1:5000/home/login";
         }
@@ -10,9 +10,10 @@
         function showMsg(msg){
             document.getElementById("msg").innerHTML= msg;
         }
-    </script>
 
-    <style>
+</script>
+
+<style>
         *{
             background-color: #dcdcdc;
         }
@@ -44,26 +45,31 @@
             border-radius: 16px;
             min-width: 80px;
         }
-    </style>
+
+</style>
 {% endblock %}
 {% block content1 %}
 
 {% endblock %}
 {% block content2 %}
-    <section class="format">
-        <h2>Forget</h2>
-        <form method="post" class="forgetForm" id="forgetForm">
-            <label><strong>Username</strong></label><br>
-            <input class="input1" type="text" name="user"><br><br>
-            <label><strong>User question</strong></label><br>
-            <input type="radio" name="userquestion" value="Whats your favorite food?">Whats your favorite food?<br>
-            <input type="radio" name="userquestion" value="Whats the name of your first pet?">Whats the name of your first pet?<br>
-            <input type="radio" name="userquestion" value="Whats the name of your primary school?">Whats the name of your primary school?<br><br>
-            <label><strong>User answer</strong></label><br>
-            <input class="input1" type="text" name="useranswer"><br><br>
-            <input type="submit" name="forgetpwd" class="input2" value="submit"> {{ msg }}
-            <input type="button" value="back to login" name="button2" class="input2" onclick="login()">
+<section class="format">
+    <h2>Forget</h2>
+    <form method="post" class="forgetForm" id="forgetForm">
+        <label><strong>Username</strong></label><br>
+        <input class="input1" type="text" name="user"><br><br>
+        <label><strong>User question</strong></label><br>
+        <input type="radio" name="userquestion" value="Whats your favorite food?">Whats your favorite food?<br>
+        <input type="radio" name="userquestion" value="Whats the name of your first pet?">Whats the name of your first
+        pet?<br>
+        <input type="radio" name="userquestion" value="Whats the name of your primary school?">Whats the name of your
+        primary school?<br><br>
+        <label><strong>User answer</strong></label><br>
+        <input class="input1" type="text" name="useranswer"><br><br>
+        <input type="submit" name="forgetpwd" class="input2" value="submit">
+        <input type="button" value="back to login" name="button2" class="input2" onclick="login()">
 
-        </form>
-    </section>
+    </form>
+    {{ msg }}
+</section>
+
 {% endblock %}

@@ -31,15 +31,6 @@
         background-color: inherit;
     }
 
-    .status {
-        float: left;
-        display: block;
-    }
-
-    .num {
-        float: right;
-    }
-
     table.center {
         margin-left: auto;
         margin-right: auto;
@@ -84,28 +75,6 @@
         display: none;
     }
 
-    .container {
-        display: flex;
-        border: 1px solid #d4d7c4;
-        /*height: 130px;*/
-        background-color: #e6e8dc;
-    }
-
-    .row {
-        margin: 5px -5px;
-    }
-
-    .col {
-        float: left;
-        width: 49%;
-    }
-
-    .container::after, .row::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
     .pTitle {
         margin: 5px 10px;
         background-color: inherit;
@@ -135,13 +104,7 @@
 {% block content2 %}
 <section>
     <div class="column side">
-        <h2>Your Orders</h2>
-        <label class="status">Pending</label>
-        <label class="num">pending_num</label><br>
-        <label class="status">Unshipped</label>
-        <label class="num">unshipped_num</label><br>
-        <label class="status">Shipped</label>
-        <label class="num">shipped_num</label><br>
+        <h2>Your Purchase</h2>
     </div>
 
     <div class="column main">
@@ -149,75 +112,24 @@
             <tr>
                 <th>No.</th>
                 <th>Order Date</th>
-                <th>Order ID</th>
-                <th>Shippment</th>
-                <th>Status</th>
-                <th>Items</th>
+                <th>Order by</th>
+                <th>Item</th>
                 <th>Price</th>
-                <th>Action</th>
-                <th></th>
+
             </tr>
-            <tr>
-                <td>{{i}}</td>
-                <td>Dec 02, 2022</td>
-                <td>123456789</td>
-                <td>Standard</td>
-                <td>pending</td>
-                <td>5</td>
-                <td>$24</td>
-                <td>
-                    <button>Confirm Order</button>
-                    <button>Cancel Order</button>
-                </td>
-                <td>
-                    <span class="material-symbols-outlined" onclick="showOrder()">expand_more</span>
-                </td>
-            </tr>
-            {% if purchase_record %}
+
+            {% if purchase %}
             {% for i in range(size) %}
             <tr>
                 <td>{{i}}</td>
-                <td>Dec 02, 2022</td>
-                <td>123456789</td>
-                <td>Standard</td>
-                <td>pending</td>
-                <td>5</td>
-                <td>$24</td>
-                <td>
-                    <button>Confirm Order</button>
-                    <button>Cancel Order</button>
-                </td>
-                <td>
-                    <span class="material-symbols-outlined" onclick="showOrder()">expand_more</span>
-                </td>
+                <td>{{purchase[i][2]}}</td>
+                <td>{{purchase[i][0]}}</td>
+                <td>{{purchase[i][3]}}</td>
+                <td>{{purchase[i][1]}}</td>
             </tr>
             {% endfor %}
             {% endif %}
         </table>
-
-        <div id="order_info">
-            <div class="row">
-                <div class="col">
-                    <div class="container">
-                        <div class="image">
-                            <img src="/static/welcome.jpg" alt="welcome" style="height: 100px">
-                        </div>
-                        <div class="pTitle">
-                            <label>Product Name</label>
-                            <p>Product Information</p>
-                        </div>
-                        <div class="pTitle">
-                            <label>Quantity</label>
-                            <p>5</p>
-                        </div>
-                        <div class="pTitle">
-                            <label>Price</label>
-                            <p>$24</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </section>
 
