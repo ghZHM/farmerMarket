@@ -23,11 +23,11 @@ project
  ```
  
  
- **2. Activate the virtual environment**
+ **2. Create and activate the virtual environment**
 
  Use a virtual environment to manage the dependencies for your project, both in development and in production.
  
- if you are using anaconda, you can use the following command to create and activate a new virtual environment in windows command line.
+ If you are using anaconda, you can use the following command to create and activate a new virtual environment in windows command line.
  ```
   conda create -n "nameOfEnvironment" python = 3.7
   # create a virtual environment called nameOfEnvironment
@@ -48,11 +48,21 @@ project
    
    **4. Initialize the database**
    
-   type in the queries in [create_table.txt](https://github.com/ghZHM/farmerMarket/blob/main/create_table.txt) in command line after activate MySQL to create a new schema.
+   Type in the queries in [create_table.txt](https://github.com/ghZHM/farmerMarket/blob/main/create_table.txt) in command line after activate MySQL to create a new schema.
    
    
    **5. Setup database in models.py**
    
-   set the correct ***user_name, password and schema name*** in [models.py](https://github.com/ghZHM/farmerMarket/blob/main/models.py#L6)
+   Set the correct ***user_name, password and schema name*** in [models.py](https://github.com/ghZHM/farmerMarket/blob/main/models.py#L6)
  
  
+   **6. Run**
+   
+   To run the application, you just need to run the following command in virtual environment.
+   ```
+   flask --app farmersMarket run
+   ```
+   And you will reach the login page by type in the following url in browers.
+   ```
+   http://127.0.0.1:5000/home/login
+   ```
