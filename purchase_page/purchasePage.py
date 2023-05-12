@@ -10,8 +10,8 @@ purchase_bp = Blueprint('purchase_bp', __name__, template_folder='templates', st
 
 paypalrestsdk.configure({
     "mode": "sandbox",
-    "client_id": "AUTUtWK1mV5ylaPEPs0XiYnsf98URaM5_lTeEBT-iiQDROsfWivLioaRhQffaO7fIcUr43oj_BHHjze9",
-    "client_secret": "EHIWBWVXUl4QiXhfMwmmxeugX_MnzjxuqckzlOqnatqAw5V5YJ8b96iH5rCo6wXT5e7Qu9bCDBD8cNwr"
+    "client_id": "", # removed key
+    "client_secret": "" # removed key
 })
 
 
@@ -191,9 +191,30 @@ def payment():
             "description": "This is the payment transaction description."}]})
 
     if payment.create():
+        session['purchase'] = toPurchase
+        print('Payment success!')
+
+    else:
+        print(payment.error)
+    return jsonify({'paymentID': payment.id})
+
+
+@purchase_bp.route('/execute', methods=['POST'])
+def execute():
+    success = False
+
+    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
+
+    if payment.execute({'payer_id': request.form['payerID']}):
+        user_info = str(session.get('user_info'))
+        print('Execute success!')
+        user_id = str(session.get('user_id'))
+        List = select("select item_id, amount from cartlist where buyer_id='" + user_id + "'")
+        toPurchase = session.get('purchase')
         for temp in List:
             itemid = str(temp[0])
             amount = int(temp[1])
+            currentStock = int(select("select item_stock from item where item_id =" + str(itemid))[0][0])
             if itemid in toPurchase:
                 paytime = str(datetime.now().strftime("%F %H:%M:%S"))
                 address = str(select("select user_address from user where user_id=" + user_id)[0][0])
@@ -220,21 +241,6 @@ def payment():
                 msg = msg + "\n" + "Please send the item to:" + dic["address"] + "\nPurchase made at " + dic["paytime"]
                 print(msg)
                 send_purchase_email(msg, dic["email"])
-        print('Payment success!')
-
-    else:
-        print(payment.error)
-    return jsonify({'paymentID': payment.id})
-
-
-@purchase_bp.route('/execute', methods=['POST'])
-def execute():
-    success = False
-
-    payment = paypalrestsdk.Payment.find(request.form['paymentID'])
-
-    if payment.execute({'payer_id': request.form['payerID']}):
-        print('Execute success!')
         success = True
     else:
         print(payment.error)
@@ -246,6 +252,7 @@ def execute():
 # Author: Haoming Zeng Details: query from database and render the front end page
 @purchase_bp.route('/wishlist', methods=['POST', 'GET'])
 def wishList():
+    user_info = str(session.get('user_info'))
     userid = str(session.get('user_id'))
     if request.method == "GET":
         wishListObjects = select(
@@ -265,7 +272,7 @@ def wishList():
 
         return render_template("wishList.html", img=imgPath, content=wishListObjects, size=len(wishListObjects),
                                total=totalPrice,
-                               sumPrice=sum)
+                               sumPrice=sum, user=user_info)
 
 # Author: Mingzi Cao Detail: add items in purchase page into wishlist
 @purchase_bp.route('/addwishlist', methods=['POST', 'GET'])
